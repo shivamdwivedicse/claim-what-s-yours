@@ -28,6 +28,7 @@ const RATE_PER_MIN = Number(process.env.RATE_PER_MIN) || 8;
 const ROOT = path.join(__dirname, '..');
 
 const app = express();
+app.set('trust proxy', 1); // behind Render/host proxy, so rate limits are per visitor
 app.disable('x-powered-by');
 app.use(express.json({ limit: '20kb' }));
 
