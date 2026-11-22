@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim What's Yours - Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+    .admin-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    .admin-note { font-size: 0.9rem; opacity: 0.85; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .adm-btn { min-height: 44px; padding: 8px 14px; border-radius: 8px; border: 1px solid #E8591A; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+    .adm-primary { background: #E8591A; color: #fff; }
+    .adm-small { min-height: 36px; padding: 4px 10px; }
+    .scheme-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 12px; border: 1px solid #333; border-radius: 10px; margin-bottom: 8px; }
+    .scheme-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .scheme-info span { font-size: 0.85rem; opacity: 0.8; word-break: break-all; }
+    .scheme-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .edit-panel { border: 1px solid #E8591A; border-radius: 12px; padding: 16px; margin-top: 16px; }
+    .edit-panel[hidden] { display: none; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 14px; }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field.wide { grid-column: 1 / -1; }
+    .field > span { font-size: 0.9rem; }
+    .field input, .field textarea, .field select, .rule-row select, .rule-row input { width: 100%; box-sizing: border-box; min-height: 44px; padding: 8px; border-radius: 6px; border: 1px solid #555; background: #1a1a1a; color: inherit; font: inherit; }
+    .field textarea { min-height: 80px; }
+    .rules { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+    .rule-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 8px; align-items: end; }
+    .rule-row .field { min-width: 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .status { margin: 12px 0; padding: 10px; border-radius: 8px; min-height: 1.2em; }
+    .status.ok { border: 1px solid #2e7d32; }
+    .status.error { border: 1px solid #c62828; color: #ff8a80; }
+    @media (max-width: 600px) {
+      .rule-row { grid-template-columns: 1fr; }
+      .scheme-row { flex-direction: column; align-items: stretch; }
+      .adm-btn { flex: 1 1 auto; }
+    }
+  </style>
+</head>
+<body class="admin">
+  <div class="admin-wrap">
+    <header class="admin-header">
+      <h1>Scheme admin</h1>
+      <a href="index.html">Back to the app</a>
+    </header>
+    <p class="admin-note">Edits are saved only in this browser (localStorage). Nothing is sent to a server. Do not enter Aadhaar or any ID number.</p>
+
+    <div class="toolbar">
+      <button type="button" id="add-scheme" class="adm-btn">Add scheme</button>
+      <button type="button" id="save-changes" class="adm-btn adm-primary">Save changes</button>
+      <button type="button" id="reset-data" class="adm-btn">Reset to built-in data</button>
+    </div>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <div id="scheme-list"></div>
+    <section id="edit-panel" class="edit-panel" hidden></section>
+  </div>
+
+  <script src="schemes.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

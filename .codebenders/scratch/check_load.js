@@ -1,0 +1,15 @@
+﻿const vm = require('vm'); const fs = require('fs');
+const ls = new Map();
+const el = () => new Proxy({}, { get: (t, k) => (k in t ? t[k] : (k === 'addEventListener' || k === 'appendChild' || k === 'setAttribute' || k === 'focus' ? () => {} : el())), set: (t, k, v) => { t[k] = v; return true; } });
+const doc = { addEventListener(){}, getElementById: () => el(), querySelector: () => el(), querySelectorAll: () => [], createElement: () => el(), body: el() };
+const ctx = { document: doc, localStorage: { getItem: k => ls.has(k) ? ls.get(k) : null, setItem: (k, v) => ls.set(k, String(v)), removeItem: k => ls.delete(k) }, console, setTimeout, window: null };
+ctx.window = ctx; vm.createContext(ctx);
+vm.runInContext(fs.readFileSync('schemes.js', 'utf8'), ctx, { filename: 'schemes.js' });
+vm.runInContext(fs.readFileSync('app.js', 'utf8'), ctx, { filename: 'app.js' });
+console.log('typeof SCHEMES =', vm.runInContext('typeof SCHEMES', ctx));
+console.log('SCHEMES.length =', vm.runInContext('SCHEMES.length', ctx));
+console.log('typeof parseSituation =', vm.runInContext('typeof parseSituation', ctx));
+const keys = ['id','name','category','benefit_text','benefit_amount_per_year','rules','documents','apply_steps','deadline','official_url','last_verified','fee'];
+const S = vm.runInContext('SCHEMES', ctx);
+S.forEach((s, i) => { const miss = keys.filter(k => !(k in s)); if (miss.length) console.log('scheme', i, s.id, 'missing:', miss.join(',')); });
+console.log('key check done');
